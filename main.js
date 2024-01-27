@@ -12,7 +12,6 @@ fs.createReadStream("nga_subnational_covid19_hera.csv")
         new_cases: +row.CONTAMINES,
       };
     });
-    console.log(formattedData);
 
     // Group data by day
     const summarizedData = formattedData.reduce((acc, current) => {
@@ -32,22 +31,25 @@ fs.createReadStream("nga_subnational_covid19_hera.csv")
     }, []);
 
     const firstCaseDateInNigeria = "2/27/2020";
-    const vaccineLaunchDateInNigeria = "3/5/2020";
+    const dayBeforeVaccinationLaunch = "3/4/2020";
+    const vaccineLaunchDate = "3/5/2020";
     const lastDate = "2/2/2022";
+
+    console.log("Summarised data", summarizedData);
 
     // Filter entries within the date range
     const filteredData = summarizedData.filter((entry) => {
       const entryDate = new Date(entry.date);
       return (
         entryDate >= new Date(firstCaseDateInNigeria) &&
-        entryDate <= new Date(vaccineLaunchDateInNigeria)
+        entryDate <= new Date(dayBeforeVaccinationLaunch)
       );
     });
 
     const filteredData2 = summarizedData.filter((entry) => {
       const entryDate = new Date(entry.date);
       return (
-        entryDate >= new Date(vaccineLaunchDateInNigeria) &&
+        entryDate >= new Date(vaccineLaunchDate) &&
         entryDate <= new Date(lastDate)
       );
     });
@@ -59,7 +61,7 @@ fs.createReadStream("nga_subnational_covid19_hera.csv")
     );
 
     console.log(`There were ${sumOfNewCasesBeforeVaccination} before vaccination started`);
-    console.log(`Average of ${sumOfNewCasesBeforeVaccination/filteredData.length} per day`);
+    console.log(`Average of ${(sumOfNewCasesBeforeVaccination/filteredData.length).toFixed(2)} per day`);
 
     // Calculate the sum of new cases after vaccination in the filtered data
     const sumOfNewCasesAfterVaccination = filteredData2.reduce(

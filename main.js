@@ -61,14 +61,16 @@ fs.createReadStream("nga_subnational_covid19_hera.csv")
     );
 
     console.log(`There were ${sumOfNewCasesBeforeVaccination} before vaccination started`);
+    console.log(`${(filteredData.length).toFixed(2)} days`);
     console.log(`Average of ${(sumOfNewCasesBeforeVaccination/filteredData.length).toFixed(2)} per day`);
-
+    
     // Calculate the sum of new cases after vaccination in the filtered data
     const sumOfNewCasesAfterVaccination = filteredData2.reduce(
       (sum, entry) => sum + entry.new_cases,
       0
-    );
-
-    console.log(`There were ${sumOfNewCasesAfterVaccination} after vaccination started`);
+      );
+      
+      console.log(`There were ${sumOfNewCasesAfterVaccination} after vaccination started`);
+      console.log(`${(filteredData2.length).toFixed(2)} days`);
     console.log(`Average of ${sumOfNewCasesAfterVaccination/filteredData2.length} per day`);
   });
